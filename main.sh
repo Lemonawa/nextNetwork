@@ -7,7 +7,7 @@ prepare(){
     apt dist-upgrade -y
     apt autoclean
     apt autoremove -y
-    apt install -y curl wget git gnupg gnupg2 gnupg1 sudo
+    apt install -y curl wget gnupg gnupg2 gnupg1 sudo
     echo "System is ready"
 }
 
@@ -65,7 +65,7 @@ main(){
     clear
     echo "1. Install"
     echo "0. Exit"
-    reat -p "Choose an option: " option
+    read -p "Choose an option: " option
     case $option in
         1) install_xanmod_edge_kernel ;;
         0) exit ;;

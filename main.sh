@@ -36,7 +36,7 @@ install_xanmod_edge_kernel(){
 configure(){
     cp /etc/sysctl.conf /etc/sysctl.conf.bak # backup
     echo 'precedence  ::ffff:0:0/96   100' | sudo tee -a /etc/gai.conf # prefer ipv4
-    cat <<'EOF' > /etc/sysctl.conf
+    cat <<'TEXT' > /etc/sysctl.conf
     # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency
     net.ipv4.tcp_rmem = 8192 262144 536870912
     net.ipv4.tcp_wmem = 8192 262144 536870912
@@ -51,7 +51,7 @@ configure(){
     # ECN
     net.ipv4.tcp_ecn = 1
 
-    EOF
+    TEXT
     sysctl -p
     
     echo "Completed. Reboot the system to take effect."
@@ -75,3 +75,4 @@ main(){
             ;;
     esac
 }
+main

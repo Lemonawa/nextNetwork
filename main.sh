@@ -3,10 +3,6 @@
 prepare(){
     echo "Preparing the system"
     apt update
-    apt upgrade -y
-    apt dist-upgrade -y
-    apt autoclean
-    apt autoremove -y
     apt install -y curl wget gnupg gnupg2 gnupg1 sudo
     echo "System is ready"
 }

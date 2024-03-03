@@ -36,7 +36,7 @@ configure(){
     cat <<'EOF' > /etc/sysctl.conf
 # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency
 net.ipv4.tcp_rmem = 8192 262144 536870912
-net.ipv4.tcp_wmem = 4096 16384 536870912
+net.ipv4.tcp_wmem = 8192 262144 536870912
 net.ipv4.tcp_adv_win_scale = -2
 net.ipv4.tcp_collapse_max_bytes = 6291456
 net.ipv4.tcp_notsent_lowat = 131072

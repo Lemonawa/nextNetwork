@@ -40,7 +40,7 @@ net.ipv4.tcp_adv_win_scale = -2
 net.ipv4.tcp_collapse_max_bytes = 6291456
 net.ipv4.tcp_notsent_lowat = 131072
 
-# BBR+fq
+# BBR+cake
 net.ipv4.tcp_congestion_control = bbr
 net.core.default_qdisc = cake
 

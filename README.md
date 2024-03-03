@@ -2,11 +2,11 @@
 A simple script to optimize network performance on Debian GNU/Linux.  
 Support Debian GNU/Linux only.  
 ## Usage
-Stable(Recommended):
+Stable(BBR+fq)(Recommended):
 ```bash
 bash <(curl -sSL https://raw.githubusercontent.com/Lemonawa/enjoyNetwork/main/main.sh)
 ```  
-Unstable:
+Unstable(BBR+cake):
 ```bash
 bash <(curl -sSL https://raw.githubusercontent.com/Lemonawa/enjoyNetwork/main/testing.sh)
 ```

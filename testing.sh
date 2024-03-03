@@ -41,9 +41,9 @@ net.ipv4.tcp_adv_win_scale = -2
 net.ipv4.tcp_collapse_max_bytes = 6291456
 net.ipv4.tcp_notsent_lowat = 131072
 
-# BBR+cake
+# BBR+fq_pie
 net.ipv4.tcp_congestion_control = bbr
-net.core.default_qdisc = cake
+net.core.default_qdisc = fq_pie
 
 # ECN, as per RFC3168
 net.ipv4.tcp_ecn = 1

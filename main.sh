@@ -36,7 +36,7 @@ configure(){
     cat <<'EOF' > /etc/sysctl.conf
 # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency
 net.ipv4.tcp_rmem = 8192 262144 536870912
-net.ipv4.tcp_wmem = 8192 262144 536870912
+net.ipv4.tcp_wmem = 4096 16384 536870912
 net.ipv4.tcp_adv_win_scale = -2
 net.ipv4.tcp_collapse_max_bytes = 6291456
 net.ipv4.tcp_notsent_lowat = 131072
@@ -51,6 +51,13 @@ net.ipv4.tcp_ecn = 1
 # TCP window scaling, as per RFC1323
 net.ipv4.tcp_window_scaling = 1
 
+# some optimization
+net.ipv4.tcp_keepalive_time = 1800
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_keepalive_probes = 3
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_fin_timeout = 30
 EOF
     sysctl -p
     clear

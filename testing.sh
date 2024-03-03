@@ -53,7 +53,7 @@ net.ipv4.tcp_window_scaling = 1
 
 EOF
     sysctl -p
-    
+    clear
     echo "Completed. Reboot the system to take effect."
     read -p "Press any key to continue..."
     reboot

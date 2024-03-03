@@ -42,7 +42,7 @@ net.ipv4.tcp_notsent_lowat = 131072
 
 # BBR+fq
 net.ipv4.tcp_congestion_control = bbr
-net.core.default_qdisc = fq
+net.core.default_qdisc = cake
 
 # ECN, as per RFC3168
 net.ipv4.tcp_ecn = 1

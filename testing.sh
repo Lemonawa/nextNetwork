@@ -8,6 +8,7 @@ prepare(){
 }
 
 install_xanmod_edge_kernel(){
+    prepare
     echo "Installing XanMod Edge Kernel"
     wget -O check_x86-64_psabi.sh https://dl.xanmod.org/check_x86-64_psabi.sh
     chmod +x check_x86-64_psabi.sh
@@ -59,8 +60,6 @@ EOF
 }
 
 main(){
-    clear
-    prepare
     clear
     echo "1. Install and configure"
     echo "2. I have already installed XanMod Edge Kernel"

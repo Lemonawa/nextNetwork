@@ -4,11 +4,11 @@ Support Debian GNU/Linux only.
 ## Usage
 Stable(BBR+fq)(Recommended):
 ```bash
-bash <(curl -sSL https://raw.githubusercontent.com/Lemonawa/enjoyNetwork/main/main.sh)
+bash <(sudo curl -sSL https://raw.githubusercontent.com/Lemonawa/enjoyNetwork/main/main.sh)
 ```  
 Unstable(BBR+cake):
 ```bash
-bash <(curl -sSL https://raw.githubusercontent.com/Lemonawa/enjoyNetwork/main/testing.sh)
+bash <(sudo curl -sSL https://raw.githubusercontent.com/Lemonawa/enjoyNetwork/main/testing.sh)
 ```
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

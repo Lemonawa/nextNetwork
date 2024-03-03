@@ -63,10 +63,12 @@ main(){
     prepare
     clear
     echo "1. Install"
+    echo "2. I have already installed XanMod Edge Kernel"
     echo "0. Exit"
     read -p "Choose an option: " option
     case $option in
         1) install_xanmod_edge_kernel ;;
+        2) configure ;;
         0) exit ;;
         *) 
             echo -e "Invalid option" 

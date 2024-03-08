@@ -3,7 +3,7 @@
 prepare(){
     echo "Preparing the system"
     apt update
-    apt install -y wget gunpg gnupg2 gnupg1
+    apt install -y wget gnupg gnupg2 gnupg1
     echo "System is ready"
 }
 

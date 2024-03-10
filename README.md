@@ -2,11 +2,11 @@
 A simple script to optimize network performance on Debian GNU/Linux.  
 Support Debian GNU/Linux only.  
 ## Usage
-Stable(BBR+fq)(Recommended):
+BBR+fq(Recommended in bad network conditions):
 ```bash
 bash <(sudo curl -sSL https://raw.githubusercontent.com/Lemonawa/nextNetwork/main/main.sh)
 ```  
-Unstable(BBR+cake):
+BBR+cake(Recommended in good network conditions):
 ```bash
 bash <(sudo curl -sSL https://raw.githubusercontent.com/Lemonawa/nextNetwork/main/testing.sh)
 ```

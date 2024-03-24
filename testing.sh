@@ -10,11 +10,11 @@ prepare(){
 install_xanmod_edge_kernel(){
     prepare
     echo "Installing XanMod Edge Kernel"
-    wget -O check_x86-64_psabi.sh https://dl.xanmod.org/check_x86-64_psabi.sh
+    wget -O check_x86-64_psabi.sh https://dl.xanmod.org/check_x86-64_psabi.sh -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0"
     chmod +x check_x86-64_psabi.sh
     cpu_level=$(./check_x86-64_psabi.sh | awk -F 'v' '{print $2}')
     rm check_x86-64_psabi.sh
-    wget -qO - https://dl.xanmod.org/archive.key | sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg
+    wget -qO - https://dl.xanmod.org/archive.key -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0" | sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg
     echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.gpg] http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-release.list
     apt update
     if [[ "${cpu_level}" == "4" ]]; then

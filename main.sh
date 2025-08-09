@@ -33,22 +33,52 @@ install_xanmod_edge_kernel(){
 configure(){
     cp /etc/sysctl.d/99-nextnetwork.conf /etc/sysctl.d/99-nextnetwork.conf.bak # backup
     cat <<'EOF' > /etc/sysctl.d/99-nextnetwork.conf
-# https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency
-net.ipv4.tcp_rmem = 8192 262144 536870912
-net.ipv4.tcp_wmem = 4096 16384 536870912
-net.ipv4.tcp_adv_win_scale = -2
-net.ipv4.tcp_collapse_max_bytes = 6291456
-net.ipv4.tcp_notsent_lowat = 131072
-
-# BBR+fq
-net.ipv4.tcp_congestion_control = bbr
+# -------------------------------
+# TCP Congestion Control & Queueing
+# -------------------------------
 net.core.default_qdisc = fq
+net.ipv4.tcp_congestion_control = bbr
 
-# ECN, as per RFC3168
-net.ipv4.tcp_ecn = 1
+# -------------------------------
+# Increase buffer sizes for high throughput
+# -------------------------------
+net.core.rmem_max = 67108864
+net.core.wmem_max = 67108864
+net.ipv4.tcp_rmem = 4096 87380 67108864
+net.ipv4.tcp_wmem = 4096 65536 67108864
+net.core.optmem_max = 65536
 
-# TCP window scaling, as per RFC1323
+# -------------------------------
+# TCP performance tuning
+# -------------------------------
+net.ipv4.tcp_mtu_probing = 1
+net.ipv4.tcp_slow_start_after_idle = 0
+net.ipv4.tcp_fastopen = 3
 net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_no_metrics_save = 1
+net.ipv4.tcp_low_latency = 1
+net.ipv4.tcp_adv_win_scale = -2
+
+# -------------------------------
+# Reduce latency in queuing
+# -------------------------------
+net.core.netdev_max_backlog = 16384
+net.ipv4.tcp_max_syn_backlog = 8192
+net.ipv4.tcp_fin_timeout = 10
+
+# -------------------------------
+# Enable reuse of TIME_WAIT sockets for fast reconnects
+# -------------------------------
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 0
+
+# -------------------------------
+# UDP buffer tuning
+# -------------------------------
+net.ipv4.udp_rmem_min = 4096
+net.ipv4.udp_wmem_min = 4096
 EOF
     sysctl --system
     clear

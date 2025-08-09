@@ -31,8 +31,8 @@ install_xanmod_edge_kernel(){
 }
 
 configure(){
-    cp /etc/sysctl.conf /etc/sysctl.conf.bak # backup
-    cat <<'EOF' > /etc/sysctl.conf
+    cp /etc/sysctl.d/99-nextnetwork.conf /etc/sysctl.d/99-nextnetwork.conf.bak # backup
+    cat <<'EOF' > /etc/sysctl.d/99-nextnetwork.conf
 # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency
 net.ipv4.tcp_rmem = 8192 262144 536870912
 net.ipv4.tcp_wmem = 4096 16384 536870912

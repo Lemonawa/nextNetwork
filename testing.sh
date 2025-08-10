@@ -80,7 +80,7 @@ net.ipv4.tcp_tw_recycle = 0
 net.ipv4.udp_rmem_min = 4096
 net.ipv4.udp_wmem_min = 4096
 EOF
-    sysctl -p
+    sysctl --system
     clear
     echo "Completed. Reboot the system to take effect."
     read -p "Press any key to continue..."

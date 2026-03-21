@@ -14,7 +14,12 @@ install_xanmod_edge_kernel(){
     echo "Installing XanMod Edge Kernel"
     wget -O check_x86-64_psabi.sh https://dl.xanmod.org/check_x86-64_psabi.sh -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0"
     chmod +x check_x86-64_psabi.sh
-    cpu_level=$(./check_x86-64_psabi.sh | awk -F 'v' '{print $2}')
+    cpu_output=$(./check_x86-64_psabi.sh || true)
+    cpu_level=$(printf '%s\n' "$cpu_output" | awk -F 'v' '/x86-64-v/ {print $2}')
+    if [[ -z "${cpu_level}" ]]; then
+        echo "Unable to detect x86-64 psABI level."
+        exit 1
+    fi
     rm check_x86-64_psabi.sh
     wget -qO - https://dl.xanmod.org/archive.key -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0" | sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg
     cat <<'EOF' > /etc/apt/sources.list.d/xanmod-release.sources

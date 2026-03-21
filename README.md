@@ -1,12 +1,15 @@
 # nextNetwork
-A simple script to optimize network performance on Debian GNU/Linux.  
-Support Debian GNU/Linux only.  
+A simple script to optimize relay and egress network performance on Debian GNU/Linux.
+Support Debian GNU/Linux only.
+
+Built around XanMod Kernel, Cloudflare TCP tuning, and XanMod's default BBRv3.
+
 ## Usage
-BBR+fq(Recommended in bad network conditions):
+`main.sh` - BBRv3+fq (recommended default, more balanced across most relay and egress workloads):
 ```bash
 bash <(sudo curl -sSL https://raw.githubusercontent.com/Lemonawa/nextNetwork/main/main.sh)
 ```  
-BBR+cake(Recommended in good network conditions):
+`testing.sh` - BBRv3+cake (testing profile, useful when you want stronger queue shaping):
 ```bash
 bash <(sudo curl -sSL https://raw.githubusercontent.com/Lemonawa/nextNetwork/main/testing.sh)
 ```

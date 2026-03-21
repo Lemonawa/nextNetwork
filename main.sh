@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 prepare(){
     echo "Preparing the system"
     apt update
@@ -37,7 +39,9 @@ EOF
 }
 
 configure(){
-    cp /etc/sysctl.d/99-nextnetwork.conf /etc/sysctl.d/99-nextnetwork.conf.bak # backup
+    if [[ -f /etc/sysctl.d/99-nextnetwork.conf ]]; then
+        cp /etc/sysctl.d/99-nextnetwork.conf /etc/sysctl.d/99-nextnetwork.conf.bak
+    fi
     cat <<'EOF' > /etc/sysctl.d/99-nextnetwork.conf
 # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency
 net.ipv4.tcp_rmem = 8192 262144 536870912
@@ -45,6 +49,22 @@ net.ipv4.tcp_wmem = 4096 16384 536870912
 net.ipv4.tcp_adv_win_scale = -2
 net.ipv4.tcp_collapse_max_bytes = 6291456
 net.ipv4.tcp_notsent_lowat = 131072
+
+# Connection handling for relay and egress servers
+net.core.somaxconn = 4096
+net.core.netdev_max_backlog = 16384
+net.ipv4.tcp_max_syn_backlog = 8192
+net.ipv4.ip_local_port_range = 10240 65535
+net.ipv4.tcp_fin_timeout = 15
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_fastopen = 3
+net.ipv4.tcp_mtu_probing = 1
+net.ipv4.tcp_slow_start_after_idle = 0
+net.ipv4.tcp_keepalive_time = 600
+net.ipv4.tcp_keepalive_intvl = 60
+net.ipv4.tcp_keepalive_probes = 3
+net.ipv4.tcp_syncookies = 1
+net.ipv4.ip_forward = 1
 
 # BBR+fq
 net.ipv4.tcp_congestion_control = bbr

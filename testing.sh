@@ -2,48 +2,48 @@
 
 set -euo pipefail
 
+required_packages(){
+    printf '%s\n' wget ca-certificates gnupg
+}
+
+require_root(){
+    if [[ "${EUID}" -ne 0 ]]; then
+        echo "Please run this script as root." >&2
+        exit 1
+    fi
+}
+
+select_xanmod_package(){
+    case "$1" in
+        1) printf '%s\n' "linux-xanmod-lts-x64v1" ;;
+        2) printf '%s\n' "linux-xanmod-x64v2" ;;
+        3|4) printf '%s\n' "linux-xanmod-x64v3" ;;
+        *)
+            echo "Unsupported x86-64 psABI level: $1" >&2
+            return 1
+            ;;
+    esac
+}
+
+get_debian_codename(){
+    . /etc/os-release
+    if [[ -z "${VERSION_CODENAME:-}" ]]; then
+        echo "Unable to detect Debian codename." >&2
+        return 1
+    fi
+
+    printf '%s\n' "$VERSION_CODENAME"
+}
+
 prepare(){
+    require_root
     echo "Preparing the system"
     apt update
-    apt install -y wget gnupg gnupg2 gnupg1 sudo
+    apt install -y $(required_packages)
     echo "System is ready"
 }
 
-install_xanmod_edge_kernel(){
-    prepare
-    echo "Installing XanMod Edge Kernel"
-    wget -O check_x86-64_psabi.sh https://dl.xanmod.org/check_x86-64_psabi.sh -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0"
-    chmod +x check_x86-64_psabi.sh
-    cpu_output=$(./check_x86-64_psabi.sh || true)
-    cpu_level=$(printf '%s\n' "$cpu_output" | awk -F 'v' '/x86-64-v/ {print $2}')
-    if [[ -z "${cpu_level}" ]]; then
-        echo "Unable to detect x86-64 psABI level."
-        exit 1
-    fi
-    rm check_x86-64_psabi.sh
-    wget -qO - https://dl.xanmod.org/archive.key -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0" | sudo gpg --dearmor -o /usr/share/keyrings/xanmod-archive-keyring.gpg
-    cat <<'EOF' > /etc/apt/sources.list.d/xanmod-release.sources
-Types: deb
-URIs: http://deb.xanmod.org/
-Suites: releases
-Components: main
-Signed-By: /usr/share/keyrings/xanmod-archive-keyring.gpg
-EOF
-    apt update
-    if [[ "${cpu_level}" == "4" ]]; then
-      apt update && apt install linux-xanmod-edge-x64v4 -y
-    elif [[ "${cpu_level}" == "3" ]]; then
-      apt update && apt install linux-xanmod-edge-x64v3 -y
-    elif [[ "${cpu_level}" == "2" ]]; then
-      apt update && apt install linux-xanmod-edge-x64v2 -y
-    else
-      apt update && apt install linux-xanmod-edge-x64v1 -y
-    fi
-    echo "XanMod Edge Kernel installed."
-    configure
-}
-
-configure(){
+write_sysctl_config(){
     if [[ -f /etc/sysctl.d/99-nextnetwork.conf ]]; then
         cp /etc/sysctl.d/99-nextnetwork.conf /etc/sysctl.d/99-nextnetwork.conf.bak
     fi
@@ -81,21 +81,61 @@ net.ipv4.tcp_ecn = 1
 # TCP window scaling, as per RFC1323
 net.ipv4.tcp_window_scaling = 1
 EOF
-    sysctl --system
+}
+
+finish_with_reboot_notice(){
     clear
     echo "Completed. Reboot the system to take effect."
     read -p "Press any key to continue..."
     reboot
 }
 
+install_xanmod_kernel(){
+    prepare
+    echo "Installing XanMod Kernel"
+    wget -O check_x86-64_psabi.sh https://dl.xanmod.org/check_x86-64_psabi.sh -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0"
+    chmod +x check_x86-64_psabi.sh
+    cpu_output=$(./check_x86-64_psabi.sh || true)
+    cpu_level=$(printf '%s\n' "$cpu_output" | awk -F 'v' '/x86-64-v/ {print $2}')
+    if [[ -z "${cpu_level}" ]]; then
+        echo "Unable to detect x86-64 psABI level."
+        exit 1
+    fi
+    rm check_x86-64_psabi.sh
+    kernel_package=$(select_xanmod_package "$cpu_level")
+    debian_codename=$(get_debian_codename)
+    mkdir -p /etc/apt/keyrings
+    wget -qO - https://dl.xanmod.org/archive.key -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0" | gpg --dearmor -o /etc/apt/keyrings/xanmod-archive-keyring.gpg
+    cat <<'EOF' > /etc/apt/sources.list.d/xanmod-release.sources
+Types: deb
+URIs: http://deb.xanmod.org/
+Suites: __XANMOD_CODENAME__
+Components: main
+Signed-By: /etc/apt/keyrings/xanmod-archive-keyring.gpg
+EOF
+    sed -i.bak "s/__XANMOD_CODENAME__/${debian_codename}/" /etc/apt/sources.list.d/xanmod-release.sources && rm -f /etc/apt/sources.list.d/xanmod-release.sources.bak
+    apt update
+    apt install "$kernel_package" -y
+    echo "XanMod Kernel installed."
+    write_sysctl_config
+    finish_with_reboot_notice
+}
+
+configure(){
+    require_root
+    write_sysctl_config
+    sysctl --system
+    finish_with_reboot_notice
+}
+
 main(){
     clear
     echo "1. Install and configure"
-    echo "2. I have already installed XanMod Edge Kernel"
+    echo "2. I have already installed XanMod Kernel"
     echo "0. Exit"
     read -p "Choose an option: " option
     case $option in
-        1) install_xanmod_edge_kernel ;;
+        1) install_xanmod_kernel ;;
         2) configure ;;
         0) exit ;;
         *) 
@@ -104,4 +144,7 @@ main(){
             ;;
     esac
 }
-main
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    main
+fi

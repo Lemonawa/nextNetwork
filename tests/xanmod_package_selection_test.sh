@@ -24,6 +24,26 @@ assert_lines_eq() {
     fi
 }
 
+assert_contains() {
+    local pattern="$1"
+    local actual="$2"
+
+    if ! printf '%s\n' "$actual" | grep -F -q "$pattern"; then
+        printf 'expected output to contain: %s\nactual lines:\n%s\n' "$pattern" "$actual" >&2
+        exit 1
+    fi
+}
+
+assert_not_contains() {
+    local pattern="$1"
+    local actual="$2"
+
+    if printf '%s\n' "$actual" | grep -F -q "$pattern"; then
+        printf 'expected output to not contain: %s\nactual lines:\n%s\n' "$pattern" "$actual" >&2
+        exit 1
+    fi
+}
+
 first_line_number() {
     local pattern="$1"
     local actual="$2"
@@ -50,6 +70,8 @@ assert_eq "fq" "$(sysctl_qdisc)"
 assert_lines_eq $'Types: deb\nURIs: http://deb.xanmod.org/\nSuites: bookworm\nComponents: main\nSigned-By: /etc/apt/keyrings/xanmod-archive-keyring.gpg' "$(render_xanmod_sources bookworm)"
 main_sysctl="$(render_sysctl_config)"
 assert_lt "$(first_line_number "net.ipv4.ip_forward = 1" "$main_sysctl")" "$(first_line_number "net.ipv4.tcp_rmem = 8192 262144 536870912" "$main_sysctl")"
+assert_contains "net.ipv4.tcp_ecn = 2" "$main_sysctl"
+assert_not_contains "net.ipv4.tcp_tw_reuse =" "$main_sysctl"
 
 source "$(dirname "$0")/../testing.sh"
 
@@ -62,5 +84,7 @@ assert_eq "cake" "$(sysctl_qdisc)"
 assert_lines_eq $'Types: deb\nURIs: http://deb.xanmod.org/\nSuites: bookworm\nComponents: main\nSigned-By: /etc/apt/keyrings/xanmod-archive-keyring.gpg' "$(render_xanmod_sources bookworm)"
 testing_sysctl="$(render_sysctl_config)"
 assert_lt "$(first_line_number "net.ipv4.ip_forward = 1" "$testing_sysctl")" "$(first_line_number "net.ipv4.tcp_rmem = 8192 262144 536870912" "$testing_sysctl")"
+assert_contains "net.ipv4.tcp_ecn = 2" "$testing_sysctl"
+assert_not_contains "net.ipv4.tcp_tw_reuse =" "$testing_sysctl"
 
 printf 'xanmod package selection ok\n'

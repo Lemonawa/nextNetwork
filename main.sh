@@ -53,19 +53,11 @@ write_xanmod_sources(){
     render_xanmod_sources "$1" > /etc/apt/sources.list.d/xanmod-release.sources
 }
 
-prepare(){
-    require_root
-    echo "Preparing the system"
-    apt update
-    apt install -y $(required_packages)
-    echo "System is ready"
-}
+render_sysctl_config(){
+    cat <<EOF
+# Enable forwarding first because toggling ip_forward resets IPv4 sysctls.
+net.ipv4.ip_forward = 1
 
-write_sysctl_config(){
-    if [[ -f /etc/sysctl.d/99-nextnetwork.conf ]]; then
-        cp /etc/sysctl.d/99-nextnetwork.conf /etc/sysctl.d/99-nextnetwork.conf.bak
-    fi
-    cat <<EOF > /etc/sysctl.d/99-nextnetwork.conf
 # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency
 net.ipv4.tcp_rmem = 8192 262144 536870912
 net.ipv4.tcp_wmem = 4096 16384 536870912
@@ -87,7 +79,6 @@ net.ipv4.tcp_keepalive_time = 600
 net.ipv4.tcp_keepalive_intvl = 60
 net.ipv4.tcp_keepalive_probes = 3
 net.ipv4.tcp_syncookies = 1
-net.ipv4.ip_forward = 1
 
 # BBR+$(sysctl_qdisc)
 net.ipv4.tcp_congestion_control = bbr
@@ -99,6 +90,21 @@ net.ipv4.tcp_ecn = 1
 # TCP window scaling, as per RFC1323
 net.ipv4.tcp_window_scaling = 1
 EOF
+}
+
+prepare(){
+    require_root
+    echo "Preparing the system"
+    apt update
+    apt install -y $(required_packages)
+    echo "System is ready"
+}
+
+write_sysctl_config(){
+    if [[ -f /etc/sysctl.d/99-nextnetwork.conf ]]; then
+        cp /etc/sysctl.d/99-nextnetwork.conf /etc/sysctl.d/99-nextnetwork.conf.bak
+    fi
+    render_sysctl_config > /etc/sysctl.d/99-nextnetwork.conf
 }
 
 finish_with_reboot_notice(){

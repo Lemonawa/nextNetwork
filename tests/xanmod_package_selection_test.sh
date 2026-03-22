@@ -29,6 +29,8 @@ assert_eq "linux-xanmod-x64v2" "$(select_xanmod_package 2)"
 assert_eq "linux-xanmod-x64v3" "$(select_xanmod_package 3)"
 assert_eq "linux-xanmod-x64v3" "$(select_xanmod_package 4)"
 assert_lines_eq $'wget\nca-certificates\ngnupg' "$(required_packages)"
+assert_eq "fq" "$(sysctl_qdisc)"
+assert_lines_eq $'Types: deb\nURIs: http://deb.xanmod.org/\nSuites: bookworm\nComponents: main\nSigned-By: /etc/apt/keyrings/xanmod-archive-keyring.gpg' "$(render_xanmod_sources bookworm)"
 
 source "$(dirname "$0")/../testing.sh"
 
@@ -37,5 +39,7 @@ assert_eq "linux-xanmod-x64v2" "$(select_xanmod_package 2)"
 assert_eq "linux-xanmod-x64v3" "$(select_xanmod_package 3)"
 assert_eq "linux-xanmod-x64v3" "$(select_xanmod_package 4)"
 assert_lines_eq $'wget\nca-certificates\ngnupg' "$(required_packages)"
+assert_eq "cake" "$(sysctl_qdisc)"
+assert_lines_eq $'Types: deb\nURIs: http://deb.xanmod.org/\nSuites: bookworm\nComponents: main\nSigned-By: /etc/apt/keyrings/xanmod-archive-keyring.gpg' "$(render_xanmod_sources bookworm)"
 
 printf 'xanmod package selection ok\n'

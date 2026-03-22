@@ -6,6 +6,10 @@ required_packages(){
     printf '%s\n' wget ca-certificates gnupg
 }
 
+sysctl_qdisc(){
+    printf '%s\n' fq
+}
+
 require_root(){
     if [[ "${EUID}" -ne 0 ]]; then
         echo "Please run this script as root." >&2
@@ -35,6 +39,20 @@ get_debian_codename(){
     printf '%s\n' "$VERSION_CODENAME"
 }
 
+render_xanmod_sources(){
+    cat <<EOF
+Types: deb
+URIs: http://deb.xanmod.org/
+Suites: $1
+Components: main
+Signed-By: /etc/apt/keyrings/xanmod-archive-keyring.gpg
+EOF
+}
+
+write_xanmod_sources(){
+    render_xanmod_sources "$1" > /etc/apt/sources.list.d/xanmod-release.sources
+}
+
 prepare(){
     require_root
     echo "Preparing the system"
@@ -47,7 +65,7 @@ write_sysctl_config(){
     if [[ -f /etc/sysctl.d/99-nextnetwork.conf ]]; then
         cp /etc/sysctl.d/99-nextnetwork.conf /etc/sysctl.d/99-nextnetwork.conf.bak
     fi
-    cat <<'EOF' > /etc/sysctl.d/99-nextnetwork.conf
+    cat <<EOF > /etc/sysctl.d/99-nextnetwork.conf
 # https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency
 net.ipv4.tcp_rmem = 8192 262144 536870912
 net.ipv4.tcp_wmem = 4096 16384 536870912
@@ -71,9 +89,9 @@ net.ipv4.tcp_keepalive_probes = 3
 net.ipv4.tcp_syncookies = 1
 net.ipv4.ip_forward = 1
 
-# BBR+fq
+# BBR+$(sysctl_qdisc)
 net.ipv4.tcp_congestion_control = bbr
-net.core.default_qdisc = fq
+net.core.default_qdisc = $(sysctl_qdisc)
 
 # ECN, as per RFC3168
 net.ipv4.tcp_ecn = 1
@@ -106,14 +124,7 @@ install_xanmod_kernel(){
     debian_codename=$(get_debian_codename)
     mkdir -p /etc/apt/keyrings
     wget -qO - https://dl.xanmod.org/archive.key -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0" | gpg --dearmor -o /etc/apt/keyrings/xanmod-archive-keyring.gpg
-    cat <<'EOF' > /etc/apt/sources.list.d/xanmod-release.sources
-Types: deb
-URIs: http://deb.xanmod.org/
-Suites: __XANMOD_CODENAME__
-Components: main
-Signed-By: /etc/apt/keyrings/xanmod-archive-keyring.gpg
-EOF
-    sed -i.bak "s/__XANMOD_CODENAME__/${debian_codename}/" /etc/apt/sources.list.d/xanmod-release.sources && rm -f /etc/apt/sources.list.d/xanmod-release.sources.bak
+    write_xanmod_sources "$debian_codename"
     apt update
     apt install "$kernel_package" -y
     echo "XanMod Kernel installed."

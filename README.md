@@ -14,19 +14,20 @@ The installer follows the current XanMod repository layout and selects packages 
 ## Usage
 `main.sh` - BBRv3+fq (recommended default, more balanced across most relay and egress workloads):
 ```bash
-bash <(wget -qO- https://raw.githubusercontent.com/Lemonawa/nextNetwork/main/main.sh)
+bash -lc 'apt-get update && apt-get install -y wget ca-certificates && bash <(wget -qO- https://raw.githubusercontent.com/Lemonawa/nextNetwork/main/main.sh)'
 ```  
 `testing.sh` - BBRv3+cake (testing profile, useful when you want stronger queue shaping):
 ```bash
-bash <(wget -qO- https://raw.githubusercontent.com/Lemonawa/nextNetwork/main/testing.sh)
+bash -lc 'apt-get update && apt-get install -y wget ca-certificates && bash <(wget -qO- https://raw.githubusercontent.com/Lemonawa/nextNetwork/main/testing.sh)'
 ```
 
 ## Notes
 - Run the script as `root`.
-- For minimal Debian, the script installs only `wget`, `ca-certificates`, and `gnupg` before adding the XanMod repository.
+- The one-liners above bootstrap `wget` and `ca-certificates` first so they work on minimal Debian installs too.
+- Inside the script, only `wget`, `ca-certificates`, and `gnupg` are installed before adding the XanMod repository.
 - If you prefer `curl`, install it first and replace `wget -qO-` with `curl -sSL`.
 - Option `1` installs XanMod, writes the sysctl profile, and then reboots. Live sysctl apply is intentionally skipped until the new kernel is booted.
-- Option `2` is for systems already running XanMod and applies the sysctl profile immediately.
+- Option `2` is for systems already running XanMod; it applies the sysctl profile immediately and then reboots after confirmation.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

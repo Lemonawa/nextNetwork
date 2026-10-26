@@ -1,0 +1,32 @@
+{
+  "recorded_at_utc": "2026-10-26T13:55:45.023312+00:00",
+  "kernel": "7.2.11-locietta-WSL2-xanmod1",
+  "logical_cpus": 32,
+  "memory": [
+    "MemTotal:       15955456 kB",
+    "MemAvailable:   14261512 kB"
+  ],
+  "loadavg": "0.12 0.07 0.02 2/534 4",
+  "cpu_model": "model name\t: AMD Ryzen 9 8940HX with Radeon Graphics",
+  "environment_basis": "User confirmed original host power plan restored before this new experiment. Invalidated measurements are excluded.",
+  "windows_power_scheme_at_start": {
+    "guid": "2cc0d8d6-a93a-4720-b6da-3ecdd6693c16",
+    "name": "Bitsum Highest Performance",
+    "source": "Read-only powercfg.exe /getactivescheme during block 1; no settings changed."
+  },
+  "windows_power_scheme_midpoint": {
+    "recorded_at_utc": "2026-10-26T14:19:51.891428+00:00",
+    "guid": "2cc0d8d6-a93a-4720-b6da-3ecdd6693c16",
+    "name": "Bitsum Highest Performance",
+    "source": "Read-only powercfg.exe /getactivescheme near midpoint; unchanged from start."
+  },
+  "completed_at_utc": "2026-10-26T14:43:31.095195+00:00",
+  "windows_power_scheme_at_end": {
+    "guid": "2cc0d8d6-a93a-4720-b6da-3ecdd6693c16",
+    "name": "Bitsum Highest Performance",
+    "source": "Read-only powercfg.exe /getactivescheme after all 80 runs; unchanged."
+  },
+  "completed_runs": 80,
+  "all_expected_run_identities_present": true,
+  "source_hashes_verified_after_completion": true
+}

@@ -1,0 +1,978 @@
+{
+  "kernel": "7.2.11-locietta-WSL2-xanmod1",
+  "os_release": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+  "baseline_commit": "5dfb9ede9ec0727984f97076a9685cb293f5097a",
+  "duration_seconds": 10,
+  "omit_seconds": 2,
+  "endpoint_offloads": "TSO/GSO/GRO disabled on all veth interfaces",
+  "scenarios_per_direction": {
+    "good": {
+      "delay": "1ms",
+      "jitter": "0.1ms",
+      "loss": "0%",
+      "rate": "1gbit"
+    },
+    "peak": {
+      "delay": "75ms",
+      "jitter": "20ms",
+      "loss": "1%",
+      "rate": "100mbit"
+    }
+  },
+  "runs": [
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 925.1595855194695,
+      "retransmits": 2,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.113,
+        3.664,
+        5.276,
+        0.728
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 1,
+      "mbps": 938.0882151973893,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.199,
+        6.709,
+        8.796,
+        0.968
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 920.2988180606736,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.118,
+        3.58,
+        4.932,
+        0.82
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 1,
+      "mbps": 937.9104281811503,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.029,
+        6.774,
+        9.908,
+        1.024
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 931.9493192680587,
+      "retransmits": 1,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.14,
+        4.004,
+        5.236,
+        0.662
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 1,
+      "mbps": 938.4603503023537,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.129,
+        6.731,
+        9.256,
+        1.05
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 917.044665242121,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        1.868,
+        3.302,
+        4.667,
+        0.818
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 1,
+      "mbps": 937.9452901605923,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.3,
+        6.697,
+        9.694,
+        0.988
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 79.05727781372725,
+      "retransmits": 707,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        118.323,
+        252.823,
+        442.773,
+        67.643
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 1,
+      "mbps": 93.0811861359461,
+      "retransmits": 836,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        92.843,
+        286.244,
+        524.836,
+        100.137
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 25.73390141154235,
+      "retransmits": 244,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        105.843,
+        199.695,
+        339.541,
+        31.075
+      ],
+      "ping_loss_percent": 1.66667,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 1,
+      "mbps": 90.9848041831638,
+      "retransmits": 817,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        88.774,
+        289.989,
+        449.048,
+        99.168
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 80.1731165516054,
+      "retransmits": 722,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        92.852,
+        245.063,
+        365.134,
+        55.296
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 1,
+      "mbps": 90.95841121009634,
+      "retransmits": 814,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        89.832,
+        287.625,
+        517.322,
+        103.449
+      ],
+      "ping_loss_percent": 3.33333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 53.38559879214543,
+      "retransmits": 487,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        124.23,
+        213.873,
+        354.71,
+        36.847
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 1,
+      "mbps": 91.36073397885484,
+      "retransmits": 823,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        96.441,
+        278.459,
+        487.289,
+        90.134
+      ],
+      "ping_loss_percent": 1.66667,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 912.750779816243,
+      "retransmits": 2,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.167,
+        3.218,
+        4.832,
+        0.782
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 2,
+      "mbps": 938.322995623257,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.222,
+        6.742,
+        9.654,
+        1.015
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 930.079584255889,
+      "retransmits": 2,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        1.92,
+        3.739,
+        4.826,
+        0.603
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 2,
+      "mbps": 937.832354571235,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.058,
+        6.619,
+        9.843,
+        1.014
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 915.4366685538636,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.184,
+        3.233,
+        4.776,
+        0.77
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 2,
+      "mbps": 938.504023025264,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.179,
+        6.686,
+        10.025,
+        1.022
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 925.1967288174293,
+      "retransmits": 3,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.069,
+        3.615,
+        4.802,
+        0.673
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 2,
+      "mbps": 937.9113645331238,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.25,
+        6.707,
+        9.543,
+        1.033
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 72.57688849215793,
+      "retransmits": 602,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        91.012,
+        232.011,
+        350.543,
+        47.062
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 2,
+      "mbps": 89.81921502166225,
+      "retransmits": 734,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        83.028,
+        299.427,
+        551.191,
+        108.183
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 68.24354866138135,
+      "retransmits": 566,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        106.712,
+        229.229,
+        366.719,
+        53.777
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 2,
+      "mbps": 91.6497060502557,
+      "retransmits": 753,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        117.889,
+        283.248,
+        499.976,
+        94.82
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 75.30548200737053,
+      "retransmits": 628,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        138.087,
+        238.42,
+        344.202,
+        48.895
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 2,
+      "mbps": 89.91377012493126,
+      "retransmits": 748,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        110.18,
+        336.504,
+        730.019,
+        152.753
+      ],
+      "ping_loss_percent": 1.66667,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 78.2092617614159,
+      "retransmits": 647,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        115.446,
+        247.918,
+        380.671,
+        61.075
+      ],
+      "ping_loss_percent": 1.66667,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 2,
+      "mbps": 89.3084351850308,
+      "retransmits": 759,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        98.135,
+        295.69,
+        454.91,
+        94.661
+      ],
+      "ping_loss_percent": 3.33333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 923.9455562703472,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.116,
+        3.564,
+        5.044,
+        0.747
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 3,
+      "mbps": 938.1219623384226,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.123,
+        6.72,
+        9.204,
+        1.008
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 917.6514385136245,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.003,
+        3.338,
+        4.988,
+        0.801
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 3,
+      "mbps": 939.1300951432145,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.14,
+        6.698,
+        10.046,
+        1.007
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 913.1740235621936,
+      "retransmits": 1,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.107,
+        3.373,
+        4.862,
+        0.808
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 3,
+      "mbps": 938.702351414225,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.114,
+        6.671,
+        9.307,
+        1.003
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 915.347817080905,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        1.974,
+        3.218,
+        4.585,
+        0.765
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "good",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 3,
+      "mbps": 938.53302859299,
+      "retransmits": 0,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        2.167,
+        6.686,
+        9.585,
+        1.041
+      ],
+      "ping_loss_percent": 0.0,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 80.43862599659964,
+      "retransmits": 787,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        117.207,
+        251.718,
+        424.138,
+        63.73
+      ],
+      "ping_loss_percent": 2.5,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 3,
+      "mbps": 91.48204756115354,
+      "retransmits": 864,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        97.039,
+        274.491,
+        451.509,
+        94.561
+      ],
+      "ping_loss_percent": 1.66667,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 25.013651974027393,
+      "retransmits": 267,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        121.943,
+        211.083,
+        368.483,
+        28.641
+      ],
+      "ping_loss_percent": 2.5,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 3,
+      "mbps": 92.00648938842663,
+      "retransmits": 878,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        122.158,
+        304.148,
+        485.495,
+        105.279
+      ],
+      "ping_loss_percent": 2.5,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 72.95469573321681,
+      "retransmits": 715,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        97.024,
+        239.989,
+        376.811,
+        56.639
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 8,
+      "repeat": 3,
+      "mbps": 91.2966999362922,
+      "retransmits": 886,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        89.351,
+        340.312,
+        793.33,
+        162.435
+      ],
+      "ping_loss_percent": 1.66667,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 77.035866142699,
+      "retransmits": 754,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        115.536,
+        244.795,
+        386.867,
+        59.564
+      ],
+      "ping_loss_percent": 0.833333,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "cake",
+      "streams": 8,
+      "repeat": 3,
+      "mbps": 92.45361461717584,
+      "retransmits": 880,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        125.211,
+        333.005,
+        653.314,
+        151.184
+      ],
+      "ping_loss_percent": 1.66667,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    }
+  ],
+  "profile_snapshots": {
+    "baseline/main.sh": {
+      "script_sha256": "ace07156e2520d0c8654eb0b18c1a2f1e4069fbe122bd43ce271511ddf36c6e0",
+      "sysctl_profile": "# Enable forwarding first because toggling ip_forward resets IPv4 sysctls.\nnet.ipv4.ip_forward = 1\n\n# https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency\nnet.ipv4.tcp_rmem = 8192 262144 536870912\nnet.ipv4.tcp_wmem = 4096 16384 536870912\nnet.ipv4.tcp_adv_win_scale = -2\nnet.ipv4.tcp_collapse_max_bytes = 6291456\nnet.ipv4.tcp_notsent_lowat = 131072\n\n# Connection handling for relay and egress servers\nnet.core.somaxconn = 4096\nnet.core.netdev_max_backlog = 16384\nnet.ipv4.tcp_max_syn_backlog = 8192\nnet.ipv4.ip_local_port_range = 10240 65535\nnet.ipv4.tcp_fin_timeout = 15\nnet.ipv4.tcp_fastopen = 3\nnet.ipv4.tcp_mtu_probing = 1\nnet.ipv4.tcp_slow_start_after_idle = 0\nnet.ipv4.tcp_keepalive_time = 600\nnet.ipv4.tcp_keepalive_intvl = 60\nnet.ipv4.tcp_keepalive_probes = 3\nnet.ipv4.tcp_syncookies = 1\n\n# BBR+fq\nnet.ipv4.tcp_congestion_control = bbr\nnet.core.default_qdisc = fq\n\n# ECN: accept it on incoming connections without requesting it on outbound SYNs.\nnet.ipv4.tcp_ecn = 2\n\n# TCP window scaling, as per RFC1323\nnet.ipv4.tcp_window_scaling = 1\n"
+    },
+    "baseline/testing.sh": {
+      "script_sha256": "1c9a54374464e740604bb74dd8dac764cfe3ffb7fbb9676cdea80d51054abbb9",
+      "sysctl_profile": "# Enable forwarding first because toggling ip_forward resets IPv4 sysctls.\nnet.ipv4.ip_forward = 1\n\n# https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency\nnet.ipv4.tcp_rmem = 8192 262144 536870912\nnet.ipv4.tcp_wmem = 4096 16384 536870912\nnet.ipv4.tcp_adv_win_scale = -2\nnet.ipv4.tcp_collapse_max_bytes = 6291456\nnet.ipv4.tcp_notsent_lowat = 131072\n\n# Connection handling for relay and egress servers\nnet.core.somaxconn = 4096\nnet.core.netdev_max_backlog = 16384\nnet.ipv4.tcp_max_syn_backlog = 8192\nnet.ipv4.ip_local_port_range = 10240 65535\nnet.ipv4.tcp_fin_timeout = 15\nnet.ipv4.tcp_fastopen = 3\nnet.ipv4.tcp_mtu_probing = 1\nnet.ipv4.tcp_slow_start_after_idle = 0\nnet.ipv4.tcp_keepalive_time = 600\nnet.ipv4.tcp_keepalive_intvl = 60\nnet.ipv4.tcp_keepalive_probes = 3\nnet.ipv4.tcp_syncookies = 1\n\n# BBR+cake\nnet.ipv4.tcp_congestion_control = bbr\nnet.core.default_qdisc = cake\n\n# ECN: accept it on incoming connections without requesting it on outbound SYNs.\nnet.ipv4.tcp_ecn = 2\n\n# TCP window scaling, as per RFC1323\nnet.ipv4.tcp_window_scaling = 1\n"
+    },
+    "candidate/main.sh": {
+      "script_sha256": "5dae805746d2ca45b9bfd62094eb2cb7b6c01801618b80fd1e5c1c6975adf185",
+      "sysctl_profile": "# Enable forwarding first because toggling ip_forward resets IPv4 sysctls.\nnet.ipv4.ip_forward = 1\n\n# Autotuning limits, not preallocated memory. Keep initial buffers small.\n# 32 MiB is a balanced starting point; size larger limits from measured BDP.\nnet.ipv4.tcp_rmem = 4096 131072 33554432\nnet.ipv4.tcp_wmem = 4096 16384 33554432\nnet.ipv4.tcp_moderate_rcvbuf = 1\n# Bound unsent application data without restricting data already in flight.\nnet.ipv4.tcp_notsent_lowat = 131072\n\n# Connection handling for relay and egress servers\nnet.core.somaxconn = 4096\nnet.ipv4.tcp_max_syn_backlog = 8192\nnet.ipv4.ip_local_port_range = 10240 65535\nnet.ipv4.tcp_mtu_probing = 1\nnet.ipv4.tcp_syncookies = 1\n\n# BBR+fq\nnet.ipv4.tcp_congestion_control = bbr\nnet.core.default_qdisc = fq\n\n# ECN: accept it on incoming connections without requesting it on outbound SYNs.\nnet.ipv4.tcp_ecn = 2\n\n# TCP window scaling (RFC 7323)\nnet.ipv4.tcp_window_scaling = 1\n"
+    },
+    "candidate/testing.sh": {
+      "script_sha256": "ebdcf756fac15e6d9dc3fa0d8786dec7cf816222eb267a61e01af1d79a7e8280",
+      "sysctl_profile": "# Enable forwarding first because toggling ip_forward resets IPv4 sysctls.\nnet.ipv4.ip_forward = 1\n\n# Autotuning limits, not preallocated memory. Keep initial buffers small.\n# 32 MiB is a balanced starting point; size larger limits from measured BDP.\nnet.ipv4.tcp_rmem = 4096 131072 33554432\nnet.ipv4.tcp_wmem = 4096 16384 33554432\nnet.ipv4.tcp_moderate_rcvbuf = 1\n# Bound unsent application data without restricting data already in flight.\nnet.ipv4.tcp_notsent_lowat = 131072\n\n# Connection handling for relay and egress servers\nnet.core.somaxconn = 4096\nnet.ipv4.tcp_max_syn_backlog = 8192\nnet.ipv4.ip_local_port_range = 10240 65535\nnet.ipv4.tcp_mtu_probing = 1\nnet.ipv4.tcp_syncookies = 1\n\n# BBR+cake\nnet.ipv4.tcp_congestion_control = bbr\nnet.core.default_qdisc = cake\n\n# ECN: accept it on incoming connections without requesting it on outbound SYNs.\nnet.ipv4.tcp_ecn = 2\n\n# TCP window scaling (RFC 7323)\nnet.ipv4.tcp_window_scaling = 1\n"
+    }
+  }
+}

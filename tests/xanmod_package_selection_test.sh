@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+# shellcheck source=../main.sh
 source "$(dirname "$0")/../main.sh"
 
 assert_eq() {
@@ -73,6 +74,7 @@ assert_lt "$(first_line_number "net.ipv4.ip_forward = 1" "$main_sysctl")" "$(fir
 assert_contains "net.ipv4.tcp_ecn = 2" "$main_sysctl"
 assert_not_contains "net.ipv4.tcp_tw_reuse =" "$main_sysctl"
 
+# shellcheck source=../testing.sh
 source "$(dirname "$0")/../testing.sh"
 
 assert_eq "linux-xanmod-lts-x64v1" "$(select_xanmod_package 1)"
@@ -87,4 +89,29 @@ assert_lt "$(first_line_number "net.ipv4.ip_forward = 1" "$testing_sysctl")" "$(
 assert_contains "net.ipv4.tcp_ecn = 2" "$testing_sysctl"
 assert_not_contains "net.ipv4.tcp_tw_reuse =" "$testing_sysctl"
 
-printf 'xanmod package selection ok\n'
+# Check both standalone scripts; sourcing must not perform system changes.
+for script in main.sh testing.sh; do
+    # shellcheck source=../main.sh
+    source "$(dirname "$0")/../$script"
+    assert_eq "linux-xanmod-lts-x64v1" "$(select_xanmod_package 1 bookworm)"
+    assert_eq "linux-xanmod-lts-x64v2" "$(select_xanmod_package 2 bookworm)"
+    assert_eq "linux-xanmod-lts-x64v3" "$(select_xanmod_package 3 bookworm)"
+    assert_eq "linux-xanmod-lts-x64v3" "$(select_xanmod_package 4 bookworm)"
+    assert_eq "linux-xanmod-x64v3" "$(select_xanmod_package 4 trixie)"
+    if select_xanmod_package 0 >/dev/null 2>&1; then
+        echo "Invalid CPU level was accepted" >&2
+        exit 1
+    fi
+    config="$(render_sysctl_config)"
+    assert_contains "net.ipv4.tcp_wmem = 4096 16384 536870912" "$config"
+    assert_contains "net.ipv4.tcp_collapse_max_bytes = 6291456" "$config"
+    assert_contains "net.ipv4.tcp_mtu_probing = 1" "$config"
+    # Restore original tuning values unless an isolated change has evidence.
+    for setting in 'net.core.netdev_max_backlog = 16384' 'net.ipv4.tcp_fin_timeout = 15' 'net.ipv4.tcp_fastopen = 3' 'net.ipv4.tcp_slow_start_after_idle = 0' 'net.ipv4.tcp_keepalive_time = 600'; do
+        assert_contains "$setting" "$config"
+    done
+    assert_contains "net.core.default_qdisc = $(sysctl_qdisc)" "$config"
+    assert_contains "net.ipv4.tcp_congestion_control = bbr" "$config"
+done
+
+printf 'package selection and sysctl profiles ok\n'

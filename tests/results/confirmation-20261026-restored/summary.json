@@ -1,0 +1,432 @@
+{
+  "buffer-cake": {
+    "a": {
+      "runs": 8,
+      "profile": "32-on",
+      "qdisc": "cake",
+      "metrics": {
+        "steady_mbps": {
+          "median": 520.93152,
+          "min": 506.80257010526316,
+          "max": 521.6183141052632
+        },
+        "wall_mbps": {
+          "median": 465.28942613333334,
+          "min": 459.9232298666667,
+          "max": 465.64874453333334
+        },
+        "remote_p99_ms": {
+          "median": 300.65559332501266,
+          "min": 300.62082042989005,
+          "max": 300.7173015800845
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 64.0,
+          "min": 64,
+          "max": 64
+        },
+        "receive_peak_mib": {
+          "median": 0.011962890625,
+          "min": 0.006439208984375,
+          "max": 0.01886749267578125
+        },
+        "collapsed_segments": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    },
+    "b": {
+      "runs": 8,
+      "profile": "512-on",
+      "qdisc": "cake",
+      "metrics": {
+        "steady_mbps": {
+          "median": 913.7590282105263,
+          "min": 908.0526888421052,
+          "max": 925.8780261052631
+        },
+        "wall_mbps": {
+          "median": 812.6471978666666,
+          "min": 809.8440618666667,
+          "max": 821.5261994666668
+        },
+        "remote_p99_ms": {
+          "median": 611.103218719983,
+          "min": 578.1060736099471,
+          "max": 683.3580922000021
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 52.0,
+          "min": 50,
+          "max": 55
+        },
+        "receive_peak_mib": {
+          "median": 0.018177032470703125,
+          "min": 0.011962890625,
+          "max": 0.02530670166015625
+        },
+        "collapsed_segments": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    }
+  },
+  "buffer-fq": {
+    "a": {
+      "runs": 8,
+      "profile": "32-on",
+      "qdisc": "fq",
+      "metrics": {
+        "steady_mbps": {
+          "median": 513.9456892631579,
+          "min": 506.52052884210525,
+          "max": 522.3198989473684
+        },
+        "wall_mbps": {
+          "median": 460.00998400000003,
+          "min": 459.83761706666667,
+          "max": 465.2918186666667
+        },
+        "remote_p99_ms": {
+          "median": 300.65335246507857,
+          "min": 300.6282563298919,
+          "max": 300.7299649000561
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 64.0,
+          "min": 64,
+          "max": 64
+        },
+        "receive_peak_mib": {
+          "median": 0.00782012939453125,
+          "min": 0.006439208984375,
+          "max": 0.011962890625
+        },
+        "collapsed_segments": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    },
+    "b": {
+      "runs": 8,
+      "profile": "512-on",
+      "qdisc": "fq",
+      "metrics": {
+        "steady_mbps": {
+          "median": 907.4652581052633,
+          "min": 906.3388665263158,
+          "max": 922.8716732631578
+        },
+        "wall_mbps": {
+          "median": 808.0482912,
+          "min": 807.7264490666668,
+          "max": 809.5192661333333
+        },
+        "remote_p99_ms": {
+          "median": 559.485315139982,
+          "min": 542.4182205199122,
+          "max": 581.8657702000065
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 54.0,
+          "min": 53,
+          "max": 56
+        },
+        "receive_peak_mib": {
+          "median": 0.015415191650390625,
+          "min": 0.0092010498046875,
+          "max": 0.02301025390625
+        },
+        "collapsed_segments": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    }
+  },
+  "collapse-cake": {
+    "a": {
+      "runs": 8,
+      "profile": "512-off",
+      "qdisc": "cake",
+      "metrics": {
+        "steady_mbps": {
+          "median": 215.5582444137931,
+          "min": 182.94975696551725,
+          "max": 317.5518204137931
+        },
+        "wall_mbps": {
+          "median": 207.1775166,
+          "min": 183.58036040000002,
+          "max": 281.2377998
+        },
+        "remote_p99_ms": {
+          "median": 649.0519461000004,
+          "min": 396.76129035973645,
+          "max": 768.7529614801955
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 90.0,
+          "min": 87,
+          "max": 93
+        },
+        "receive_peak_mib": {
+          "median": 566.8406982421875,
+          "min": 566.8197631835938,
+          "max": 566.847900390625
+        },
+        "collapsed_segments": {
+          "median": 44067.5,
+          "min": 44061,
+          "max": 133636
+        }
+      }
+    },
+    "b": {
+      "runs": 8,
+      "profile": "512-on",
+      "qdisc": "cake",
+      "metrics": {
+        "steady_mbps": {
+          "median": 402.99225172413793,
+          "min": 401.8952510344828,
+          "max": 404.13344055172416
+        },
+        "wall_mbps": {
+          "median": 344.1971019,
+          "min": 343.3862118,
+          "max": 345.04047560000004
+        },
+        "remote_p99_ms": {
+          "median": 596.4279313799469,
+          "min": 550.4416733998643,
+          "max": 680.4831426597957
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 88.5,
+          "min": 87,
+          "max": 89
+        },
+        "receive_peak_mib": {
+          "median": 512.0026779174805,
+          "min": 512.0022277832031,
+          "max": 512.0036239624023
+        },
+        "collapsed_segments": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    }
+  },
+  "collapse-fq": {
+    "a": {
+      "runs": 8,
+      "profile": "512-off",
+      "qdisc": "fq",
+      "metrics": {
+        "steady_mbps": {
+          "median": 318.3798172413793,
+          "min": 194.21492910344827,
+          "max": 318.67341958620693
+        },
+        "wall_mbps": {
+          "median": 280.3720648,
+          "min": 190.3665442,
+          "max": 280.65130839999995
+        },
+        "remote_p99_ms": {
+          "median": 599.6366537249917,
+          "min": 536.1014401203101,
+          "max": 732.6875688999073
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 87.5,
+          "min": 86,
+          "max": 93
+        },
+        "receive_peak_mib": {
+          "median": 566.8421325683594,
+          "min": 560.273681640625,
+          "max": 566.847900390625
+        },
+        "collapsed_segments": {
+          "median": 44059.0,
+          "min": 44049,
+          "max": 133631
+        }
+      }
+    },
+    "b": {
+      "runs": 8,
+      "profile": "512-on",
+      "qdisc": "fq",
+      "metrics": {
+        "steady_mbps": {
+          "median": 404.59034993103455,
+          "min": 401.09333020689655,
+          "max": 420.1960819310345
+        },
+        "wall_mbps": {
+          "median": 344.0302124,
+          "min": 341.43251480000004,
+          "max": 356.48309939999996
+        },
+        "remote_p99_ms": {
+          "median": 558.5722533049463,
+          "min": 539.3228974399108,
+          "max": 577.5834287397538
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 88.5,
+          "min": 87,
+          "max": 90
+        },
+        "receive_peak_mib": {
+          "median": 512.0027847290039,
+          "min": 512.0026321411133,
+          "max": 512.0037002563477
+        },
+        "collapsed_segments": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    }
+  },
+  "shaping-cake": {
+    "a": {
+      "runs": 8,
+      "profile": "512-on",
+      "qdisc": "cake",
+      "metrics": {
+        "steady_mbps": {
+          "median": 911.1736623157894,
+          "min": 908.323388631579,
+          "max": 923.0405557894736
+        },
+        "wall_mbps": {
+          "median": 812.6980629333333,
+          "min": 810.6685162666666,
+          "max": 820.2585258666667
+        },
+        "remote_p99_ms": {
+          "median": 574.2603894149124,
+          "min": 560.8661755199773,
+          "max": 677.6712497399831
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 53.5,
+          "min": 50,
+          "max": 55
+        },
+        "receive_peak_mib": {
+          "median": 0.019557952880859375,
+          "min": 0.0092010498046875,
+          "max": 0.063507080078125
+        },
+        "collapsed_segments": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    },
+    "b": {
+      "runs": 8,
+      "profile": "512-on",
+      "qdisc": "cake-shaped",
+      "metrics": {
+        "steady_mbps": {
+          "median": 828.1974703157895,
+          "min": 814.6204126315789,
+          "max": 842.1805776842106
+        },
+        "wall_mbps": {
+          "median": 741.0569184000001,
+          "min": 727.9092138666666,
+          "max": 745.4999616
+        },
+        "remote_p99_ms": {
+          "median": 300.8287800498715,
+          "min": 300.5573016100402,
+          "max": 301.16059786022106
+        },
+        "remote_failed": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        },
+        "remote_samples": {
+          "median": 64.0,
+          "min": 64,
+          "max": 64
+        },
+        "receive_peak_mib": {
+          "median": 0.01610565185546875,
+          "min": 0.006439208984375,
+          "max": 0.02806854248046875
+        },
+        "collapsed_segments": {
+          "median": 0.0,
+          "min": 0,
+          "max": 0
+        }
+      }
+    }
+  }
+}

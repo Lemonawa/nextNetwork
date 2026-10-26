@@ -1,0 +1,9 @@
+{
+  "same_experimental_design": true,
+  "changed_design_keys": [],
+  "changed_source_files": [
+    "tests/confirmatory_simulation.py"
+  ],
+  "source_change_reason": "Reject INVALIDATED.md directories before prepare, verify or analyze. No workload, thresholds or schedule changes.",
+  "old_measurements_retained_or_reused": false
+}

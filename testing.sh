@@ -18,10 +18,15 @@ require_root(){
 }
 
 select_xanmod_package(){
+    local branch=""
+    # XanMod only publishes LTS packages for Debian bookworm.
+    if [[ "${2:-}" == "bookworm" || "$1" == "1" ]]; then
+        branch="lts-"
+    fi
     case "$1" in
-        1) printf '%s\n' "linux-xanmod-lts-x64v1" ;;
-        2) printf '%s\n' "linux-xanmod-x64v2" ;;
-        3|4) printf '%s\n' "linux-xanmod-x64v3" ;;
+        1) printf '%s\n' "linux-xanmod-${branch}x64v1" ;;
+        2) printf '%s\n' "linux-xanmod-${branch}x64v2" ;;
+        3|4) printf '%s\n' "linux-xanmod-${branch}x64v3" ;;
         *)
             echo "Unsupported x86-64 psABI level: $1" >&2
             return 1
@@ -30,7 +35,13 @@ select_xanmod_package(){
 }
 
 get_debian_codename(){
+    local ID VERSION_CODENAME
+    # shellcheck source=/dev/null
     . /etc/os-release
+    if [[ "${ID:-}" != "debian" ]]; then
+        echo "Only Debian GNU/Linux is supported." >&2
+        return 1
+    fi
     if [[ -z "${VERSION_CODENAME:-}" ]]; then
         echo "Unable to detect Debian codename." >&2
         return 1
@@ -94,8 +105,10 @@ EOF
 prepare(){
     require_root
     echo "Preparing the system"
-    apt update
-    apt install -y $(required_packages)
+    local -a packages
+    mapfile -t packages < <(required_packages)
+    apt-get update
+    apt-get install -y "${packages[@]}"
     echo "System is ready"
 }
 
@@ -107,49 +120,82 @@ write_sysctl_config(){
 }
 
 finish_with_reboot_notice(){
-    clear
-    echo "Completed. Reboot the system to take effect."
-    read -p "Press any key to continue..."
-    reboot
+    local answer
+    echo "Completed. Reboot to activate the installed kernel and default qdisc."
+    if read -r -p "Reboot now? [y/N]: " answer && [[ "$answer" =~ ^[Yy]([Ee][Ss])?$ ]]; then
+        reboot
+    fi
 }
 
-install_xanmod_kernel(){
-    prepare
-    echo "Installing XanMod Kernel"
-    wget -O check_x86-64_psabi.sh https://dl.xanmod.org/check_x86-64_psabi.sh -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0"
-    chmod +x check_x86-64_psabi.sh
-    cpu_output=$(./check_x86-64_psabi.sh || true)
-    cpu_level=$(printf '%s\n' "$cpu_output" | awk -F 'v' '/x86-64-v/ {print $2}')
-    if [[ -z "${cpu_level}" ]]; then
-        echo "Unable to detect x86-64 psABI level."
+install_xanmod_kernel()(
+    require_root
+    local debian_codename kernel_package cpu_output cpu_level cpu_status=0 work_dir
+    debian_codename=$(get_debian_codename)
+    if [[ "$(dpkg --print-architecture)" != "amd64" ]]; then
+        echo "XanMod requires the amd64 architecture." >&2
         exit 1
     fi
-    rm check_x86-64_psabi.sh
-    kernel_package=$(select_xanmod_package "$cpu_level")
-    debian_codename=$(get_debian_codename)
-    mkdir -p /etc/apt/keyrings
-    wget -qO - https://dl.xanmod.org/archive.key -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0" | gpg --dearmor -o /etc/apt/keyrings/xanmod-archive-keyring.gpg
+    prepare
+    echo "Installing XanMod Kernel"
+    work_dir=$(mktemp -d)
+    trap 'rm -rf -- "$work_dir"' EXIT
+    wget --timeout=30 --tries=3 -O "$work_dir/check_x86-64_psabi.sh" https://dl.xanmod.org/check_x86-64_psabi.sh
+    # The official probe is awk, and exits with CPU level + 1 on success.
+    cpu_output=$(awk -f "$work_dir/check_x86-64_psabi.sh") || cpu_status=$?
+    cpu_level=$(printf '%s\n' "$cpu_output" | sed -n 's/^CPU supports x86-64-v\([1-4]\)$/\1/p')
+    if [[ ! "$cpu_level" =~ ^[1-4]$ ]] || (( cpu_status != cpu_level + 1 )); then
+        echo "Unable to detect x86-64 psABI level." >&2
+        exit 1
+    fi
+    kernel_package=$(select_xanmod_package "$cpu_level" "$debian_codename")
+    install -d -m 0755 /etc/apt/keyrings
+    wget --timeout=30 --tries=3 -O "$work_dir/archive.key" https://dl.xanmod.org/archive.key
+    gpg --batch --yes --dearmor -o "$work_dir/xanmod-archive-keyring.gpg" "$work_dir/archive.key"
+    install -m 0644 "$work_dir/xanmod-archive-keyring.gpg" /etc/apt/keyrings/xanmod-archive-keyring.gpg
     write_xanmod_sources "$debian_codename"
-    apt update
-    apt install "$kernel_package" -y
+    apt-get update
+    apt-get install -y "$kernel_package"
     echo "XanMod Kernel installed."
     write_sysctl_config
     finish_with_reboot_notice
+)
+
+check_running_kernel(){
+    local available qdisc
+    # BBR may be built in; do not fail merely because modprobe is unavailable.
+    modprobe tcp_bbr 2>/dev/null || true
+    available=$(sysctl -n net.ipv4.tcp_available_congestion_control)
+    if [[ " $available " != *" bbr "* ]]; then
+        echo "BBR is unavailable. Boot the installed XanMod kernel first." >&2
+        return 1
+    fi
+    if ! sysctl -n net.ipv4.tcp_collapse_max_bytes > /dev/null 2>&1; then
+        echo "The Cloudflare TCP collapse patch is unavailable. Boot XanMod before applying this profile." >&2
+        return 1
+    fi
+    qdisc=$(sysctl_qdisc)
+    if ! modprobe "sch_$qdisc"; then
+        echo "Unable to load $qdisc. Check the running kernel before applying tuning." >&2
+        return 1
+    fi
 }
 
 configure(){
     require_root
+    get_debian_codename > /dev/null
+    check_running_kernel
     write_sysctl_config
-    sysctl --system
+    # Apply only this profile, without reapplying unrelated system settings.
+    sysctl -p /etc/sysctl.d/99-nextnetwork.conf
     finish_with_reboot_notice
 }
 
 main(){
-    clear
+    if [[ -t 1 && -n "${TERM:-}" ]]; then clear; fi
     echo "1. Install and configure"
     echo "2. I have already installed XanMod Kernel"
     echo "0. Exit"
-    read -p "Choose an option: " option
+    read -r -p "Choose an option: " option
     case $option in
         1) install_xanmod_kernel ;;
         2) configure ;;

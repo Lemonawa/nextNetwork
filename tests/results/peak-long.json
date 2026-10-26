@@ -1,0 +1,156 @@
+{
+  "kernel": "7.2.11-locietta-WSL2-xanmod1",
+  "os_release": "PRETTY_NAME=\"Debian GNU/Linux 13 (trixie)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"13\"\nVERSION=\"13 (trixie)\"\nVERSION_CODENAME=trixie\nDEBIAN_VERSION_FULL=13.7\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+  "baseline_commit": "5dfb9ede9ec0727984f97076a9685cb293f5097a",
+  "duration_seconds": 30,
+  "omit_seconds": 2,
+  "endpoint_offloads": "TSO/GSO/GRO disabled on all veth interfaces",
+  "scenarios_per_direction": {
+    "good": {
+      "delay": "1ms",
+      "jitter": "0.1ms",
+      "loss": "0%",
+      "rate": "1gbit"
+    },
+    "peak": {
+      "delay": "75ms",
+      "jitter": "20ms",
+      "loss": "1%",
+      "rate": "100mbit"
+    }
+  },
+  "filters": {
+    "scenario": "peak",
+    "qdisc": "fq",
+    "streams": 1
+  },
+  "runs": [
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 74.95188192977773,
+      "retransmits": 1998,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        116.064,
+        257.725,
+        394.078,
+        61.912
+      ],
+      "ping_loss_percent": 1.25,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 1,
+      "mbps": 80.96662755123299,
+      "retransmits": 2137,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        106.106,
+        255.326,
+        491.549,
+        56.817
+      ],
+      "ping_loss_percent": 2.1875,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 78.5384279083324,
+      "retransmits": 2043,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        126.776,
+        250.442,
+        392.816,
+        50.735
+      ],
+      "ping_loss_percent": 0.9375,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 2,
+      "mbps": 76.0753557627458,
+      "retransmits": 1967,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        95.23,
+        251.525,
+        463.998,
+        61.342
+      ],
+      "ping_loss_percent": 3.125,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "baseline",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 72.52166691529708,
+      "retransmits": 1962,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        119.845,
+        262.238,
+        489.476,
+        74.61
+      ],
+      "ping_loss_percent": 1.875,
+      "skipped_sysctls": [
+        "net.core.default_qdisc",
+        "net.core.netdev_max_backlog"
+      ]
+    },
+    {
+      "scenario": "peak",
+      "version": "candidate",
+      "qdisc": "fq",
+      "streams": 1,
+      "repeat": 3,
+      "mbps": 65.41877695107907,
+      "retransmits": 1776,
+      "ping_rtt_min_avg_max_mdev_ms": [
+        127.844,
+        246.586,
+        388.332,
+        55.062
+      ],
+      "ping_loss_percent": 0.9375,
+      "skipped_sysctls": [
+        "net.core.default_qdisc"
+      ]
+    }
+  ],
+  "profile_snapshots": {
+    "baseline/main.sh": {
+      "script_sha256": "ace07156e2520d0c8654eb0b18c1a2f1e4069fbe122bd43ce271511ddf36c6e0",
+      "sysctl_profile": "# Enable forwarding first because toggling ip_forward resets IPv4 sysctls.\nnet.ipv4.ip_forward = 1\n\n# https://blog.cloudflare.com/optimizing-tcp-for-high-throughput-and-low-latency\nnet.ipv4.tcp_rmem = 8192 262144 536870912\nnet.ipv4.tcp_wmem = 4096 16384 536870912\nnet.ipv4.tcp_adv_win_scale = -2\nnet.ipv4.tcp_collapse_max_bytes = 6291456\nnet.ipv4.tcp_notsent_lowat = 131072\n\n# Connection handling for relay and egress servers\nnet.core.somaxconn = 4096\nnet.core.netdev_max_backlog = 16384\nnet.ipv4.tcp_max_syn_backlog = 8192\nnet.ipv4.ip_local_port_range = 10240 65535\nnet.ipv4.tcp_fin_timeout = 15\nnet.ipv4.tcp_fastopen = 3\nnet.ipv4.tcp_mtu_probing = 1\nnet.ipv4.tcp_slow_start_after_idle = 0\nnet.ipv4.tcp_keepalive_time = 600\nnet.ipv4.tcp_keepalive_intvl = 60\nnet.ipv4.tcp_keepalive_probes = 3\nnet.ipv4.tcp_syncookies = 1\n\n# BBR+fq\nnet.ipv4.tcp_congestion_control = bbr\nnet.core.default_qdisc = fq\n\n# ECN: accept it on incoming connections without requesting it on outbound SYNs.\nnet.ipv4.tcp_ecn = 2\n\n# TCP window scaling, as per RFC1323\nnet.ipv4.tcp_window_scaling = 1\n"
+    },
+    "candidate/main.sh": {
+      "script_sha256": "5dae805746d2ca45b9bfd62094eb2cb7b6c01801618b80fd1e5c1c6975adf185",
+      "sysctl_profile": "# Enable forwarding first because toggling ip_forward resets IPv4 sysctls.\nnet.ipv4.ip_forward = 1\n\n# Autotuning limits, not preallocated memory. Keep initial buffers small.\n# 32 MiB is a balanced starting point; size larger limits from measured BDP.\nnet.ipv4.tcp_rmem = 4096 131072 33554432\nnet.ipv4.tcp_wmem = 4096 16384 33554432\nnet.ipv4.tcp_moderate_rcvbuf = 1\n# Bound unsent application data without restricting data already in flight.\nnet.ipv4.tcp_notsent_lowat = 131072\n\n# Connection handling for relay and egress servers\nnet.core.somaxconn = 4096\nnet.ipv4.tcp_max_syn_backlog = 8192\nnet.ipv4.ip_local_port_range = 10240 65535\nnet.ipv4.tcp_mtu_probing = 1\nnet.ipv4.tcp_syncookies = 1\n\n# BBR+fq\nnet.ipv4.tcp_congestion_control = bbr\nnet.core.default_qdisc = fq\n\n# ECN: accept it on incoming connections without requesting it on outbound SYNs.\nnet.ipv4.tcp_ecn = 2\n\n# TCP window scaling (RFC 7323)\nnet.ipv4.tcp_window_scaling = 1\n"
+    }
+  }
+}
